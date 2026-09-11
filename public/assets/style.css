@@ -1,0 +1,245 @@
+/* ── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --color-bg:        #ffffff;
+  --color-bg-alt:    #f6f8fa;
+  --color-text:      #24292f;
+  --color-text-muted:#57606a;
+  --color-primary:   #ee0000;
+  --color-primary-dk:#b30000;
+  --color-dark:      #1b1f24;
+  --color-dark-alt:  #272c33;
+  --color-border:    #d0d7de;
+  --color-code-bg:   #f0f3f6;
+  --color-link:      #0969da;
+  --radius:          8px;
+  --max-width:       1140px;
+  --font-sans:       'Red Hat Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono:       'Red Hat Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--color-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; display: block; }
+
+/* ── Utility ──────────────────────────────────────────────── */
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 1.5rem; }
+
+/* ── Navigation ───────────────────────────────────────────── */
+.site-nav {
+  background: var(--color-dark);
+  position: sticky; top: 0; z-index: 100;
+  border-bottom: 3px solid var(--color-primary);
+}
+.site-nav .container {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.site-nav__brand {
+  font-weight: 700; font-size: 1.1rem; color: #fff;
+  display: flex; align-items: center; gap: .5rem;
+  text-decoration: none;
+}
+.site-nav__brand:hover { text-decoration: none; opacity: .9; }
+.site-nav__brand svg { height: 28px; width: 28px; }
+.site-nav__links { display: flex; gap: 1.5rem; list-style: none; }
+.site-nav__links a {
+  color: #ffffffcc; font-size: .9rem; font-weight: 500;
+  transition: color .15s;
+}
+.site-nav__links a:hover { color: #fff; text-decoration: none; }
+.site-nav__links a.active { color: #fff; border-bottom: 2px solid var(--color-primary); padding-bottom: 2px; }
+
+/* Hamburger (mobile) */
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-alt) 100%);
+  color: #fff; text-align: center;
+  padding: 5rem 1.5rem 4rem;
+}
+.hero h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: .75rem; letter-spacing: -.02em; }
+.hero .subtitle { font-size: 1.25rem; color: #ffffffbb; max-width: 600px; margin: 0 auto 1.5rem; }
+.hero .disclaimer {
+  display: inline-block;
+  background: rgba(238,0,0,.15);
+  border: 1px solid rgba(238,0,0,.35);
+  border-radius: var(--radius);
+  padding: .45rem 1rem; font-size: .85rem;
+  color: #ffcccc;
+}
+
+/* ── Section ──────────────────────────────────────────────── */
+.section { padding: 4rem 0; }
+.section--alt { background: var(--color-bg-alt); }
+.section__title {
+  font-size: 1.8rem; font-weight: 700; margin-bottom: .5rem;
+  text-align: center; letter-spacing: -.01em;
+}
+.section__subtitle {
+  text-align: center; color: var(--color-text-muted);
+  margin-bottom: 2.5rem; font-size: 1.05rem;
+}
+
+/* ── Extension Cards ──────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: box-shadow .2s, transform .2s;
+  display: flex; flex-direction: column;
+}
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  transform: translateY(-2px);
+}
+.card__name {
+  font-size: 1.15rem; font-weight: 700;
+  margin-bottom: .15rem;
+}
+.card__id {
+  font-family: var(--font-mono); font-size: .8rem;
+  color: var(--color-text-muted); margin-bottom: .65rem;
+}
+.card__desc {
+  flex: 1; color: var(--color-text-muted); font-size: .95rem;
+  margin-bottom: 1rem;
+}
+.card__link {
+  font-size: .85rem; font-weight: 600;
+  display: inline-flex; align-items: center; gap: .3rem;
+}
+.card__link::after { content: '→'; }
+
+/* ── Quick Start ──────────────────────────────────────────── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  counter-reset: step;
+}
+.step {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: relative;
+}
+.step::before {
+  counter-increment: step;
+  content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--color-primary); color: #fff;
+  font-weight: 700; font-size: 1rem; margin-bottom: .75rem;
+}
+.step h3 { font-size: 1.05rem; margin-bottom: .4rem; }
+.step p { color: var(--color-text-muted); font-size: .9rem; }
+
+/* ── Code / Pre ───────────────────────────────────────────── */
+code {
+  font-family: var(--font-mono);
+  background: var(--color-code-bg);
+  padding: .15em .35em; border-radius: 4px;
+  font-size: .88em;
+}
+pre {
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-size: .88rem;
+  line-height: 1.55;
+  margin: 1rem 0;
+}
+pre code {
+  background: none; padding: 0; border-radius: 0;
+}
+
+/* ── Prose (guide / developer / api pages) ────────────────── */
+.prose { max-width: 800px; margin: 0 auto; }
+.prose h1 { font-size: 2rem; font-weight: 800; margin-bottom: .5rem; }
+.prose h2 { font-size: 1.4rem; margin-top: 2.5rem; margin-bottom: .75rem; padding-bottom: .35rem; border-bottom: 1px solid var(--color-border); }
+.prose h3 { font-size: 1.15rem; margin-top: 1.8rem; margin-bottom: .5rem; }
+.prose p  { margin-bottom: 1rem; }
+.prose ul, .prose ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+.prose li { margin-bottom: .35rem; }
+.prose li > code { font-size: .85em; }
+.prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.prose th, .prose td { text-align: left; padding: .5rem .75rem; border: 1px solid var(--color-border); }
+.prose th { background: var(--color-bg-alt); font-weight: 600; }
+
+/* ── Page Hero (inner pages) ──────────────────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-dark-alt) 100%);
+  color: #fff; padding: 3rem 1.5rem 2.5rem;
+}
+.page-hero h1 { font-size: 2.2rem; font-weight: 800; }
+.page-hero p  { color: #ffffffbb; margin-top: .35rem; font-size: 1.05rem; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-dark); color: #ffffffaa;
+  padding: 2.5rem 0; text-align: center; font-size: .88rem;
+}
+.site-footer a { color: #ffffffcc; }
+.site-footer a:hover { color: #fff; }
+.footer-links { display: flex; gap: 1.5rem; justify-content: center; margin-bottom: .75rem; list-style: none; }
+
+/* ── API Endpoint Cards ───────────────────────────────────── */
+.endpoint {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+.endpoint__method {
+  display: inline-block; padding: .15rem .55rem; border-radius: 4px;
+  font-family: var(--font-mono); font-size: .8rem; font-weight: 700;
+  margin-right: .5rem; text-transform: uppercase; color: #fff;
+}
+.endpoint__method--get  { background: #1a7f37; }
+.endpoint__method--post { background: #0969da; }
+.endpoint__method--delete { background: #cf222e; }
+.endpoint__path { font-family: var(--font-mono); font-size: .95rem; font-weight: 600; }
+.endpoint__desc { margin-top: .5rem; color: var(--color-text-muted); font-size: .92rem; }
+.endpoint__body { margin-top: .5rem; }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2rem; }
+  .hero { padding: 3.5rem 1rem 2.5rem; }
+  .page-hero { padding: 2rem 1rem 1.75rem; }
+  .page-hero h1 { font-size: 1.6rem; }
+  .section { padding: 2.5rem 0; }
+  .cards { grid-template-columns: 1fr; }
+
+  .site-nav__links { 
+    display: none; flex-direction: column; position: absolute;
+    top: 56px; left: 0; right: 0; background: var(--color-dark);
+    padding: 1rem 1.5rem; gap: .75rem;
+    border-bottom: 3px solid var(--color-primary);
+  }
+  .site-nav__links.open { display: flex; }
+  .nav-toggle { display: block; }
+}

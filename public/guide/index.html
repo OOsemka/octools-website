@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — OpenShift Community Tools</title>
+  <meta name="description" content="Install the OCT storefront and start adding community extensions to your OpenShift Console.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="container">
+      <a href="/" class="site-nav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#EE0000"/>
+          <text x="14" y="20" text-anchor="middle" fill="#fff" font-family="Red Hat Display,sans-serif" font-weight="800" font-size="15">OC</text>
+        </svg>
+        OCTools
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav__links').classList.toggle('open')">☰</button>
+      <ul class="site-nav__links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/guide/" class="active">Getting Started</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/api/">API Reference</a></li>
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <h1>Getting Started</h1>
+      <p>Install the storefront and add community tools to your OpenShift Console.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <section class="section">
+    <div class="container prose">
+
+      <h2>Prerequisites</h2>
+      <ul>
+        <li>OpenShift <strong>4.21</strong> or later</li>
+        <li><strong>cluster-admin</strong> access (required for ConsolePlugin installation)</li>
+        <li><code>oc</code> CLI logged in to your cluster</li>
+      </ul>
+
+      <h2>Install the Storefront</h2>
+      <p>The OCT storefront is itself an OpenShift dynamic console plugin. Apply the install manifest:</p>
+      <pre><code>oc apply -f https://raw.githubusercontent.com/OOsemka/oct-storefront/main/deploy/install.yaml</code></pre>
+      <p>This creates the <code>oct-storefront</code> namespace, Deployment, Service, and ConsolePlugin CR, then enables the plugin on the console.</p>
+
+      <h2>Navigate to Community Tools</h2>
+      <p>After the storefront pod is Running, refresh the OpenShift Console. A new <strong>Community Tools</strong> section appears in the left sidebar with hubs for:</p>
+      <ul>
+        <li><strong>Compute</strong> — bare metal, virtualization tools</li>
+        <li><strong>Storage</strong> — benchmarks, data management</li>
+        <li><strong>Network</strong> — bonding, VLAN, network policy tools</li>
+        <li><strong>Management</strong> — banners, dashboards, utilities</li>
+      </ul>
+
+      <h2>Browse the Catalog</h2>
+      <p>Each hub lists available community extensions as tiles. Every tile shows the tool name, description, category, version, star rating, and download count.</p>
+
+      <h2>Add an Extension</h2>
+      <p>Click <strong>Add</strong> on any tile. The storefront:</p>
+      <ol>
+        <li>Creates a namespace for the extension (e.g. <code>oct-baremetal</code>)</li>
+        <li>Applies the bundled deploy YAML (Deployment, Service, ConsolePlugin, any PVCs)</li>
+        <li>Appends the plugin to the console <code>spec.plugins</code> list</li>
+        <li>Waits for the plugin to become Ready</li>
+      </ol>
+      <p>If the extension requires storage (like Bare Metal Hosts), the storefront shows a StorageClass picker.</p>
+
+      <h2>Enable / Disable</h2>
+      <p>Toggle an extension off without uninstalling. The workload keeps running; only the console route is removed. Toggle it back on any time.</p>
+
+      <h2>Update</h2>
+      <p>When a new version is available for your OpenShift minor, an <strong>Update</strong> button appears on the tile. Updates are explicit — never automatic. Click to pull the new version.</p>
+
+      <h2>Star Rating</h2>
+      <p>Rate tools from 1–5 stars to help the community surface the most useful extensions. Ratings are anonymous (SHA-256 cluster hash for deduplication — no PII).</p>
+
+      <h2>External Extensions</h2>
+      <p>If a tool isn't in the catalog yet, you can add it manually:</p>
+      <ol>
+        <li>Click <strong>Add external extension</strong></li>
+        <li>Paste a <code>CommunityTool</code> YAML manifest</li>
+        <li>The storefront installs it with an <strong>orange badge</strong> to distinguish it from catalog tools</li>
+      </ol>
+      <p>External tool stats stay cluster-local. See <a href="https://github.com/OOsemka/oct-hello-external">oct-hello-external</a> for a working example.</p>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="/api/">API Docs</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+      </ul>
+      <p>OpenShift Community Tools &mdash; a community project, not officially supported by Red Hat.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

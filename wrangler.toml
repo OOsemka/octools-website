@@ -1,0 +1,14 @@
+name = "octools-website"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+[assets]
+directory = "./public"
+
+[[routes]]
+pattern = "octools.net/*"
+zone_name = "octools.net"
+
+[[routes]]
+pattern = "www.octools.net/*"
+zone_name = "octools.net"

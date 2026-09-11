@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Guide — OpenShift Community Tools</title>
+  <meta name="description" content="Build your own OCT extension: conventions, template, catalog PR, and external module path.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="container">
+      <a href="/" class="site-nav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#EE0000"/>
+          <text x="14" y="20" text-anchor="middle" fill="#fff" font-family="Red Hat Display,sans-serif" font-weight="800" font-size="15">OC</text>
+        </svg>
+        OCTools
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav__links').classList.toggle('open')">☰</button>
+      <ul class="site-nav__links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+        <li><a href="/developer/" class="active">Developer Guide</a></li>
+        <li><a href="/api/">API Reference</a></li>
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <h1>Developer Guide</h1>
+      <p>Build, package, and publish your own OCT extension.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <section class="section">
+    <div class="container prose">
+
+      <h2>OCT Conventions</h2>
+
+      <h3>Naming</h3>
+      <p>Use <code>oct-&lt;name&gt;</code> everywhere: plugin ID, directory, container image, ConsolePlugin CR, and catalog entry.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Pattern</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Plugin ID</td><td><code>oct-&lt;name&gt;</code></td><td><code>oct-baremetal</code></td></tr>
+          <tr><td>Image</td><td><code>quay.io/&lt;org&gt;/oct-&lt;name&gt;:&lt;tag&gt;</code></td><td><code>quay.io/myorg/oct-baremetal:1.0.0-ocp4.22</code></td></tr>
+          <tr><td>i18n namespace</td><td><code>plugin__oct-&lt;name&gt;</code></td><td><code>plugin__oct-baremetal</code></td></tr>
+          <tr><td>CSS prefix</td><td>Module-specific</td><td><code>bmh-</code>, <code>hw-</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>Versioning</h3>
+      <p>OCT uses two axes: <strong>extension semver</strong> and <strong>OpenShift minor</strong>. Image tags always combine both:</p>
+      <pre><code>&lt;semver&gt;-ocp&lt;major.minor&gt;
+
+# Examples:
+1.0.0-ocp4.22
+1.0.0-ocp4.21
+0.1.1-ocp4.22</code></pre>
+      <p>Always publish both OpenShift minor tags (same digest if bits match). Never catalog a <code>(version, minor)</code> unless the exact combined tag is public.</p>
+
+      <h3>PatternFly</h3>
+      <p>Use <strong>PatternFly 6</strong> only. Import from <code>@patternfly/react-core</code> ^6. Do <em>not</em> import PatternFly CSS (the console host provides it).</p>
+
+      <h3>Community Disclaimer</h3>
+      <p>Include a <code>CommunityDisclaimer</code> component on all tool pages:</p>
+      <pre><code>"Community project. Not officially supported by Red Hat."</code></pre>
+
+      <h2>Start from the Template</h2>
+      <p>Fork <a href="https://github.com/OOsemka/oct-hello-world">oct-hello-world</a> and follow these steps:</p>
+      <ol>
+        <li><strong>Rename the plugin ID</strong> in <code>package.json</code> → <code>consolePlugin.name</code></li>
+        <li><strong>Update routes</strong> in <code>console-extensions.json</code></li>
+        <li><strong>Build your page components</strong> in <code>src/</code></li>
+        <li><strong>Verify the build</strong>:
+          <pre><code>yarn install
+yarn build</code></pre>
+        </li>
+        <li><strong>Build the container</strong>:
+          <pre><code>podman build -t quay.io/&lt;org&gt;/oct-&lt;name&gt;:&lt;semver&gt;-ocp4.22 .</code></pre>
+        </li>
+        <li><strong>Push to a public registry</strong> (no pull secret for community Add):
+          <pre><code>podman push quay.io/&lt;org&gt;/oct-&lt;name&gt;:&lt;semver&gt;-ocp4.22</code></pre>
+        </li>
+      </ol>
+
+      <h2>Catalog PR</h2>
+      <p>To list your tool in the storefront catalog, submit a PR to <a href="https://github.com/OOsemka/oct-storefront">oct-storefront</a> adding your tool to <code>catalog/community.yaml</code>:</p>
+      <pre><code>- metadata:
+    name: oct-your-tool
+  spec:
+    displayName: "Your Tool"
+    description: "What it does"
+    category: Compute          # Compute | Storage | Network | Management
+    consolePlugin: oct-your-tool
+    href: /community-tools/compute/your-tool
+    defaultChannel: stable
+    versions:
+      - version: "1.0.0"
+        channel: stable
+        openshift: ["4.21", "4.22"]
+        image: quay.io/org/oct-your-tool:1.0.0-ocp4.22
+        gitRef: v1.0.0</code></pre>
+      <p>Also create a deploy bundle YAML at <code>catalog/deploy/oct-your-tool.yaml</code> and register it in <code>BUNDLED_DEPLOY</code>. The bundle must include every resource the extension needs: Namespace, Deployment, Service, ConsolePlugin, RBAC, PVCs, etc.</p>
+
+      <h2>External Module Path</h2>
+      <p>If you don't want to submit a catalog PR, users can still install your tool:</p>
+      <ol>
+        <li>Click <strong>Add external extension</strong> in the storefront</li>
+        <li>Paste a <code>CommunityTool</code> YAML manifest</li>
+        <li>The extension gets an <strong>orange badge</strong>, and stats stay cluster-local</li>
+      </ol>
+      <p>See <a href="https://github.com/OOsemka/oct-hello-external">oct-hello-external</a> for a working example.</p>
+
+      <h2>Required Files Checklist</h2>
+      <table>
+        <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>package.json</code></td><td>Plugin metadata, <code>consolePlugin.name</code></td></tr>
+          <tr><td><code>console-extensions.json</code></td><td>Exposed module routes</td></tr>
+          <tr><td><code>webpack.config.js</code></td><td>Build configuration</td></tr>
+          <tr><td><code>tsconfig.json</code></td><td>TypeScript config</td></tr>
+          <tr><td><code>src/</code></td><td>Components, <code>CommunityDisclaimer</code></td></tr>
+          <tr><td><code>locales/en/plugin__oct-&lt;name&gt;.json</code></td><td>i18n strings</td></tr>
+          <tr><td><code>Containerfile</code></td><td>Container build</td></tr>
+          <tr><td><code>nginx.conf</code></td><td>Plugin nginx serving config</td></tr>
+          <tr><td><code>deploy/install.yaml</code></td><td>Standalone install manifest</td></tr>
+          <tr><td><code>AGENTS.md</code></td><td>AI/agent context</td></tr>
+          <tr><td><code>README.md</code></td><td>Human docs</td></tr>
+          <tr><td><code>.cursor/rules/</code></td><td>6 OCT Cursor rules (<code>alwaysApply: true</code>)</td></tr>
+        </tbody>
+      </table>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="/api/">API Docs</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+      </ul>
+      <p>OpenShift Community Tools &mdash; a community project, not officially supported by Red Hat.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
