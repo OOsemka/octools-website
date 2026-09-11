@@ -97,6 +97,16 @@
       </ol>
       <p>External tool stats stay cluster-local. See <a href="https://github.com/OOsemka/oct-hello-external">oct-hello-external</a> for a working example.</p>
 
+      <h2 id="uninstall">Uninstall</h2>
+      <p>To remove all OCT extensions from your cluster:</p>
+      <div class="code-block">
+        <pre><code id="uninstall-cmd">bash &lt;(curl -s https://raw.githubusercontent.com/OOsemka/oct-storefront/main/deploy/uninstall.sh)</code></pre>
+        <button class="copy-btn" onclick="copyUninstallCommand(this)" aria-label="Copy to clipboard" title="Copy to clipboard">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+        </button>
+      </div>
+      <p>This removes all <code>oct-*</code> namespaces, ConsolePlugins, and RBAC. System plugins are not affected.</p>
+
     </div>
   </section>
 
@@ -108,10 +118,23 @@
         <li><a href="/api/">API Docs</a></li>
         <li><a href="/developer/">Developer Guide</a></li>
         <li><a href="/guide/">Getting Started</a></li>
+        <li><a href="/guide/#uninstall">Uninstall</a></li>
       </ul>
       <p>OpenShift Community Tools &mdash; a community project, not officially supported by Red Hat.</p>
     </div>
   </footer>
+
+  <script>
+    function copyUninstallCommand(btn) {
+      var text = document.getElementById('uninstall-cmd').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.innerHTML = '<span style="font-size:.8rem;font-weight:600">Copied!</span>';
+        setTimeout(function() {
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>';
+        }, 2000);
+      });
+    }
+  </script>
 
 </body>
 </html>
