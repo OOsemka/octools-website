@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenShift Community Tools</title>
+  <meta name="description" content="Community-built UX extensions for the OpenShift Console. Browse, install, and manage tools from a single storefront.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="container">
+      <a href="/" class="site-nav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#EE0000"/>
+          <text x="14" y="20" text-anchor="middle" fill="#fff" font-family="Red Hat Display,sans-serif" font-weight="800" font-size="15">OC</text>
+        </svg>
+        OCTools
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav__links').classList.toggle('open')">☰</button>
+      <ul class="site-nav__links">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/api/">API Reference</a></li>
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>OpenShift Community Tools</h1>
+    <p class="subtitle">Community-built UX extensions for the OpenShift Console</p>
+    <div class="disclaimer">Community project. Not officially supported by Red Hat.</div>
+  </section>
+
+  <!-- Available Extensions -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">Available Extensions</h2>
+      <p class="section__subtitle">Install from the storefront or explore the source</p>
+
+      <div class="cards">
+        <!-- Bare Metal Hosts -->
+        <div class="card">
+          <div class="card__name">Bare Metal Hosts</div>
+          <div class="card__id">oct-baremetal</div>
+          <p class="card__desc">Inventory, register, and deploy bare metal nodes with Redfish discovery and OS image caching.</p>
+          <a href="https://github.com/OOsemka/oct-baremetal" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Network Bond -->
+        <div class="card">
+          <div class="card__name">Network Bond</div>
+          <div class="card__id">oct-network-bond</div>
+          <p class="card__desc">Bond physical NICs by MachineConfigPool with a visual wizard.</p>
+          <a href="https://github.com/OOsemka/oct-network-bond" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Windows Builder -->
+        <div class="card">
+          <div class="card__name">Windows Builder</div>
+          <div class="card__id">oct-windows-builder</div>
+          <p class="card__desc">Build sysprepped Windows disks for OpenShift Virtualization.</p>
+          <a href="https://github.com/OOsemka/oct-windows-builder" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Banner -->
+        <div class="card">
+          <div class="card__name">Banner</div>
+          <div class="card__id">oct-banner</div>
+          <p class="card__desc">Show and customize the OpenShift Console banner.</p>
+          <a href="https://github.com/OOsemka/oct-banner" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Storage Bench -->
+        <div class="card">
+          <div class="card__name">Storage Bench</div>
+          <div class="card__id">oct-storage-bench</div>
+          <p class="card__desc">Benchmark ODF/Ceph storage performance with fio-based workloads.</p>
+          <a href="https://github.com/OOsemka/oct-storage-bench" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Hello World -->
+        <div class="card">
+          <div class="card__name">Hello World</div>
+          <div class="card__id">oct-hello-world</div>
+          <p class="card__desc">Template for building new OCT extensions. Fork this to get started.</p>
+          <a href="https://github.com/OOsemka/oct-hello-world" class="card__link">View on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="section__title">Quick Start</h2>
+      <p class="section__subtitle">Three steps to community tools in your OpenShift Console</p>
+
+      <div class="steps">
+        <div class="step">
+          <h3>Install the Storefront</h3>
+          <p>Apply the install manifest to deploy the OCT storefront plugin into your cluster.</p>
+          <pre><code>oc apply -f https://raw.githubusercontent.com/OOsemka/oct-storefront/main/deploy/install.yaml</code></pre>
+        </div>
+        <div class="step">
+          <h3>Browse the Catalog</h3>
+          <p>Open the OpenShift Console. Navigate to <strong>Community Tools</strong> in the sidebar. Browse extensions by category: Compute, Storage, Network, Management.</p>
+        </div>
+        <div class="step">
+          <h3>Add Extensions</h3>
+          <p>Click <strong>Add</strong> on any tile. The storefront creates the namespace, deploys the plugin, and enables it in your console.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="/api/">API Docs</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+      </ul>
+      <p>OpenShift Community Tools &mdash; a community project, not officially supported by Red Hat.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

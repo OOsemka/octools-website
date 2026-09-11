@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference — OpenShift Community Tools</title>
+  <meta name="description" content="REST API reference for the OCT stats, versions, and catalog service at api.octools.net.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="container">
+      <a href="/" class="site-nav__brand">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="28" height="28" rx="6" fill="#EE0000"/>
+          <text x="14" y="20" text-anchor="middle" fill="#fff" font-family="Red Hat Display,sans-serif" font-weight="800" font-size="15">OC</text>
+        </svg>
+        OCTools
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.site-nav__links').classList.toggle('open')">☰</button>
+      <ul class="site-nav__links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/api/" class="active">API Reference</a></li>
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <h1>API Reference</h1>
+      <p>REST API for catalog, stats, and version data.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <section class="section">
+    <div class="container prose">
+
+      <h2>Overview</h2>
+      <p>The OCT API is served at <code>https://api.octools.net</code> via Cloudflare Workers. All endpoints return JSON and support CORS.</p>
+      <table>
+        <tbody>
+          <tr><td><strong>Base URL</strong></td><td><code>https://api.octools.net</code></td></tr>
+          <tr><td><strong>Format</strong></td><td>JSON</td></tr>
+          <tr><td><strong>Auth</strong></td><td>None for reads; Bearer token for admin writes</td></tr>
+          <tr><td><strong>Rate limit</strong></td><td>20 writes/min per IP</td></tr>
+          <tr><td><strong>Privacy</strong></td><td>No PII collected — only anonymous SHA-256 cluster hash for rating dedup</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Endpoints</h2>
+
+      <!-- GET /health -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--get">GET</span>
+        <span class="endpoint__path">/health</span>
+        <p class="endpoint__desc">Health check. Returns <code>{"status":"ok"}</code>.</p>
+      </div>
+
+      <!-- GET /v1/catalog -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--get">GET</span>
+        <span class="endpoint__path">/v1/catalog</span>
+        <p class="endpoint__desc">Full catalog with stats (downloads, average rating) and version rows merged per tool.</p>
+      </div>
+
+      <!-- GET /v1/stats -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--get">GET</span>
+        <span class="endpoint__path">/v1/stats</span>
+        <p class="endpoint__desc">Download counts and ratings for all tools.</p>
+      </div>
+
+      <!-- GET /v1/versions -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--get">GET</span>
+        <span class="endpoint__path">/v1/versions</span>
+        <p class="endpoint__desc">All version rows across all tools (version, channel, openshift, image, gitRef).</p>
+      </div>
+
+      <!-- GET /v1/versions/:toolId -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--get">GET</span>
+        <span class="endpoint__path">/v1/versions/:toolId</span>
+        <p class="endpoint__desc">Version rows for a single tool.</p>
+        <div class="endpoint__body">
+          <pre><code># Example
+GET /v1/versions/oct-baremetal</code></pre>
+        </div>
+      </div>
+
+      <!-- POST /v1/stats/download -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--post">POST</span>
+        <span class="endpoint__path">/v1/stats/download</span>
+        <p class="endpoint__desc">Increment the download counter for a tool. Called by the storefront on Add.</p>
+        <div class="endpoint__body">
+          <pre><code># Request body
+{
+  "toolId": "oct-baremetal"
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- POST /v1/stats/rating -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--post">POST</span>
+        <span class="endpoint__path">/v1/stats/rating</span>
+        <p class="endpoint__desc">Upsert a star rating. One rating per cluster per tool (deduped by cluster hash).</p>
+        <div class="endpoint__body">
+          <pre><code># Request body
+{
+  "toolId": "oct-baremetal",
+  "clusterHash": "a1b2c3d4...sha256",
+  "stars": 5
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- DELETE /v1/stats/rating -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--delete">DELETE</span>
+        <span class="endpoint__path">/v1/stats/rating</span>
+        <p class="endpoint__desc">Remove a rating. Body is the same as the POST (minus <code>stars</code>).</p>
+        <div class="endpoint__body">
+          <pre><code># Request body
+{
+  "toolId": "oct-baremetal",
+  "clusterHash": "a1b2c3d4...sha256"
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- POST /v1/versions (admin) -->
+      <div class="endpoint">
+        <span class="endpoint__method endpoint__method--post">POST</span>
+        <span class="endpoint__path">/v1/versions</span>
+        <p class="endpoint__desc"><strong>Admin only.</strong> Upsert a version row. Requires <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+        <div class="endpoint__body">
+          <pre><code># Request body
+{
+  "toolId": "oct-baremetal",
+  "version": "1.0.0",
+  "channel": "stable",
+  "openshift": ["4.21", "4.22"],
+  "image": "quay.io/org/oct-baremetal:1.0.0-ocp4.22",
+  "gitRef": "v1.0.0"
+}
+
+# Header
+Authorization: Bearer &lt;admin-token&gt;</code></pre>
+        </div>
+      </div>
+
+      <h2>CORS</h2>
+      <p>All endpoints return permissive CORS headers. The API is designed to be called from OpenShift Console plugins running in the browser.</p>
+
+      <h2>Rate Limiting</h2>
+      <p>Write endpoints (<code>POST</code>, <code>DELETE</code>) are rate-limited to <strong>20 requests per minute per IP</strong>. Read endpoints are not rate-limited.</p>
+
+      <h2>Privacy</h2>
+      <p>The API collects <strong>no personally identifiable information</strong>. Ratings use an anonymous SHA-256 hash of the cluster ID for deduplication. No cookies, no tracking, no analytics.</p>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="/api/">API Docs</a></li>
+        <li><a href="/developer/">Developer Guide</a></li>
+        <li><a href="/guide/">Getting Started</a></li>
+      </ul>
+      <p>OpenShift Community Tools &mdash; a community project, not officially supported by Red Hat.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
