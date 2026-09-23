@@ -40,6 +40,66 @@
     <div class="disclaimer">Community project. Not officially supported by Red Hat.</div>
   </section>
 
+  <!-- What's New -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="section__title">What&rsquo;s New</h2>
+      <p class="section__subtitle">Recent additions and major updates across OCT extensions</p>
+
+      <div class="whatsnew">
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Network DHCP</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Create dnsmasq-based DHCP servers on NAD VLAN networks with IP pools, gateway, DNS, and per-VM MAC reservations. Automatic SCC creation for NET_RAW, NET_BIND_SERVICE, and NET_ADMIN capabilities.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Network VLAN</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Create VLAN networks for VMs and pods. Supports Linux bridge NADs and OVN ClusterUserDefinedNetworks with localnet topology.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Network Bridge</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Create Linux or OVS bridges on cluster nodes with NMState. Tag VLANs, configure OVN bridge-mappings, and apply per-MachineConfigPool.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Storefront v1.3</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">Version-aware cache seeding that auto-refreshes on upgrade, public API metadata enrichment, and installed.json persistence across restarts.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Bare Metal Hosts</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">Register and deploy bare metal nodes with Redfish BMC discovery, OS image caching via discovery-service, and cloud-init provisioning.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Storage Bench</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">FIO-based storage benchmarking with RADOS tests for Ceph. Test any StorageClass with configurable block sizes and queue depths.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">Banner</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">Customize the OpenShift Console banner, logo, and branding. Set text, colors, and appearance from a simple UI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Available Extensions -->
   <section class="section">
     <div class="container">
@@ -50,72 +110,151 @@
         <!-- Bare Metal Hosts -->
         <div class="card">
           <div class="card__name">Bare Metal Hosts</div>
-          <div class="card__id">oct-baremetal</div>
-          <p class="card__desc">Inventory, register, and deploy bare metal nodes with Redfish discovery and OS image caching.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-baremetal</code>
+            <span class="card__version">v0.1.1</span>
+            <span class="card__category card__category--compute">Compute</span>
+          </div>
+          <ul class="card__features">
+            <li>Redfish BMC discovery &mdash; auto-detect model, CPU, RAM, NICs, disks</li>
+            <li>OS image tiles from CDI DataSources and DataImportCrons</li>
+            <li>Image caching via discovery-service for Ironic provisioning</li>
+            <li>Cloud-init userData and NMState networkData on deploy</li>
+            <li>watchAllNamespaces awareness for multi-namespace hosts</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-baremetal" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Network Bond -->
         <div class="card">
           <div class="card__name">Network Bond</div>
-          <div class="card__id">oct-network-bond</div>
-          <p class="card__desc">Bond physical NICs by MachineConfigPool with a visual wizard.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-network-bond</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--network">Network</span>
+          </div>
+          <ul class="card__features">
+            <li>Bond physical NICs with visual step-by-step wizard</li>
+            <li>Select by MachineConfigPool for targeted rollout</li>
+            <li>Multiple bond modes (802.3ad, active-backup, etc.)</li>
+            <li>NMState NodeNetworkConfigurationPolicy generation</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-network-bond" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Network Bridge -->
         <div class="card">
           <div class="card__name">Network Bridge</div>
-          <div class="card__id">oct-network-bridge</div>
-          <p class="card__desc">Create Linux or OVS bridges on cluster nodes with NMState. Tag VLANs, configure OVN bridge-mappings, and manage bridges by MachineConfigPool.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-network-bridge</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--network">Network</span>
+          </div>
+          <ul class="card__features">
+            <li>Create Linux or OVS bridges via NMState policies</li>
+            <li>VLAN tagging on bridge ports</li>
+            <li>OVN bridge-mappings for localnet topology</li>
+            <li>Per-MachineConfigPool bridge management</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-network-bridge" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Network VLAN -->
         <div class="card">
           <div class="card__name">Network VLAN</div>
-          <div class="card__id">oct-network-vlan</div>
-          <p class="card__desc">Create VLAN networks for VMs and pods. Supports Linux bridge NADs and OVN ClusterUserDefinedNetworks with localnet topology.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-network-vlan</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--network">Network</span>
+          </div>
+          <ul class="card__features">
+            <li>VLAN NetworkAttachmentDefinitions for VMs and pods</li>
+            <li>Linux bridge NAD support with VLAN trunk/access config</li>
+            <li>OVN ClusterUserDefinedNetworks with localnet topology</li>
+            <li>Automatic subnet and gateway configuration</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-network-vlan" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Network DHCP -->
         <div class="card">
           <div class="card__name">Network DHCP</div>
-          <div class="card__id">oct-network-dhcp</div>
-          <p class="card__desc">Create dnsmasq-based DHCP servers attached to NAD VLAN networks. Define IP pools, gateway, DNS, and per-VM MAC reservations.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-network-dhcp</code>
+            <span class="card__version">v1.0.5</span>
+            <span class="card__category card__category--network">Network</span>
+          </div>
+          <ul class="card__features">
+            <li>dnsmasq-based DHCP servers on NAD VLAN networks</li>
+            <li>IP pools with gateway and DNS configuration</li>
+            <li>VM MAC discovery and static reservations</li>
+            <li>Automatic SCC for NET_RAW / NET_BIND_SERVICE / NET_ADMIN</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-network-dhcp" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Windows Builder -->
         <div class="card">
           <div class="card__name">Windows Builder</div>
-          <div class="card__id">oct-windows-builder</div>
-          <p class="card__desc">Build sysprepped Windows disks for OpenShift Virtualization.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-windows-builder</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--compute">Compute</span>
+          </div>
+          <ul class="card__features">
+            <li>Build sysprepped Windows disks for OpenShift Virtualization</li>
+            <li>Automated unattend.xml generation and injection</li>
+            <li>Support for Windows Server and Desktop editions</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-windows-builder" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Banner -->
         <div class="card">
           <div class="card__name">Banner</div>
-          <div class="card__id">oct-banner</div>
-          <p class="card__desc">Show and customize the OpenShift Console banner, logo, and branding. Change text, colors, and console appearance.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-banner</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--management">Management</span>
+          </div>
+          <ul class="card__features">
+            <li>Customize console banner text, colors, and background</li>
+            <li>Upload or link a custom logo image</li>
+            <li>Live preview of branding changes</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-banner" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Storage Bench -->
         <div class="card">
           <div class="card__name">Storage Bench</div>
-          <div class="card__id">oct-storage-bench</div>
-          <p class="card__desc">Benchmark storage performance with FIO-based workloads against any storage backend. Includes RADOS tests for Ceph clusters.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-storage-bench</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--storage">Storage</span>
+          </div>
+          <ul class="card__features">
+            <li>FIO-based benchmarks against any StorageClass</li>
+            <li>RADOS tests for Ceph ODF clusters</li>
+            <li>Configurable block sizes, queue depths, and IO patterns</li>
+            <li>Results dashboard with IOPS, throughput, and latency</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-storage-bench" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Hello World -->
         <div class="card">
           <div class="card__name">Hello World</div>
-          <div class="card__id">oct-hello-world</div>
-          <p class="card__desc">Template for building new OCT extensions. Fork this to get started.</p>
+          <div class="card__meta">
+            <code class="card__id">oct-hello-world</code>
+            <span class="card__version">v1.0.0</span>
+            <span class="card__category card__category--template">Template</span>
+          </div>
+          <ul class="card__features">
+            <li>Starter template for new OCT extensions</li>
+            <li>PatternFly 6, webpack, console-extensions.json scaffold</li>
+            <li>Fork and rename to build your own tool</li>
+          </ul>
           <a href="https://github.com/OOsemka/oct-hello-world" class="card__link">View on GitHub</a>
         </div>
       </div>
