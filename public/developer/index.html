@@ -106,12 +106,32 @@ yarn build</code></pre>
     href: /community-tools/compute/your-tool
     defaultChannel: stable
     versions:
+      # one row per OpenShift minor, each with that minor's combined tag
       - version: "1.0.0"
         channel: stable
-        openshift: ["4.21", "4.22"]
+        openshift: ["4.21"]
+        image: quay.io/org/oct-your-tool:1.0.0-ocp4.21
+        gitRef: v1.0.0
+      - version: "1.0.0"
+        channel: stable
+        openshift: ["4.22"]
         image: quay.io/org/oct-your-tool:1.0.0-ocp4.22
         gitRef: v1.0.0</code></pre>
       <p>Also create a deploy bundle YAML at <code>catalog/deploy/oct-your-tool.yaml</code> and register it in <code>BUNDLED_DEPLOY</code>. The bundle must include every resource the extension needs: Namespace, Deployment, Service, ConsolePlugin, RBAC, PVCs, etc.</p>
+
+      <h2>Publishing a Release</h2>
+      <ol>
+        <li>Bump <code>package.json</code> &mdash; both <code>version</code> and <code>consolePlugin.version</code> &mdash; and tag the repo <code>v&lt;semver&gt;</code>.</li>
+        <li>Build and push the image for <strong>both</strong> OpenShift minors: <code>&lt;semver&gt;-ocp4.22</code> and <code>&lt;semver&gt;-ocp4.21</code> (same digest if the bits match). Do the same for any companion images. Never overwrite a published tag &mdash; pick the next version instead.</li>
+        <li>In <code>oct-storefront</code>: add the new <code>versions[]</code> rows (keep older ones), update <code>catalog/deploy/oct-your-tool.yaml</code>, check it is registered in <code>BUNDLED_DEPLOY</code>, bump the storefront version and publish its image (deploy bundles are compiled into it).</li>
+        <li>Run <code>scripts/validate-catalog.sh</code> in the storefront repo &mdash; it checks that every tag is public, both minors are present and bundles match the catalog.</li>
+        <li>After the storefront PR merges, publish the rows to the public API from <a href="https://github.com/OOsemka/octools-stats-worker"><code>octools-stats-worker</code></a> (maintainers hold the admin token):
+          <pre><code>DRY_RUN=1 TOOL=oct-your-tool CATALOG_PATH=../oct-storefront/catalog/community.yaml node seed.js
+ADMIN_TOKEN=&lt;token&gt; TOOL=oct-your-tool CATALOG_PATH=../oct-storefront/catalog/community.yaml node seed.js
+curl -s https://api.octools.net/v1/versions/oct-your-tool</code></pre>
+        </li>
+        <li>On clusters already running the storefront: <code>oc delete configmap community-tools-cache -n oct-storefront</code> so the new catalog is re-seeded.</li>
+      </ol>
 
       <h2>External Module Path</h2>
       <p>If you don't want to submit a catalog PR, users can still install your tool:</p>

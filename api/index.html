@@ -144,17 +144,20 @@ GET /v1/versions/oct-baremetal</code></pre>
       <div class="endpoint">
         <span class="endpoint__method endpoint__method--post">POST</span>
         <span class="endpoint__path">/v1/versions</span>
-        <p class="endpoint__desc"><strong>Admin only.</strong> Upsert a version row. Requires <code>Authorization: Bearer &lt;token&gt;</code>.</p>
+        <p class="endpoint__desc"><strong>Admin only.</strong> Upsert one version row. Requires <code>Authorization: Bearer &lt;token&gt;</code>. Rows are keyed by <code>(toolId, version, openshift)</code>, so <strong>post one row per OpenShift minor</strong> &mdash; <code>openshift</code> is a single string, and <code>image</code> is that minor's combined tag. Re-posting a row updates it. Admin writes are not rate-limited.</p>
         <div class="endpoint__body">
-          <pre><code># Request body
+          <pre><code># Request body (one per OpenShift minor)
 {
   "toolId": "oct-baremetal",
   "version": "1.0.0",
   "channel": "stable",
-  "openshift": ["4.21", "4.22"],
+  "openshift": "4.22",
   "image": "quay.io/org/oct-baremetal:1.0.0-ocp4.22",
   "gitRef": "v1.0.0"
 }
+
+# Optional fields (tile metadata for /v1/catalog):
+#   deployUrl, category, description, displayName, href, icon, git
 
 # Header
 Authorization: Bearer &lt;admin-token&gt;</code></pre>

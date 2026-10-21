@@ -49,6 +49,13 @@
       <div class="whatsnew">
         <div class="whatsnew__item">
           <div class="whatsnew__header">
+            <span class="whatsnew__title">Shift-on-Shift Virt</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Deploy standalone OpenShift clusters on KubeVirt VMs from a wizard. Optionally extend a host StorageClass into the nested cluster and install OpenShift Virtualization there, so the nested cluster can run its own VMs.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
             <span class="whatsnew__title">Network DHCP</span>
             <span class="whatsnew__badge whatsnew__badge--new">New</span>
           </div>
@@ -123,6 +130,24 @@
             <li>watchAllNamespaces awareness for multi-namespace hosts</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-baremetal" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- Shift-on-Shift Virt -->
+        <div class="card">
+          <div class="card__name">Shift-on-Shift Virt</div>
+          <div class="card__meta">
+            <code class="card__id">oct-shift-on-shift-virt</code>
+            <span class="card__version">v0.2.0</span>
+            <span class="card__category card__category--compute">Compute</span>
+          </div>
+          <ul class="card__features">
+            <li>Standalone OpenShift on KubeVirt VMs &mdash; full OCP-on-OCP, not HyperShift</li>
+            <li>Agent-based install on a per-cluster user-defined network, fully automated</li>
+            <li>One bastion VM: nested DNS, MCS relay, optional desktop with the nested console</li>
+            <li>Live-migratable masters (l2bridge binding, RWX Block disks)</li>
+            <li>Optional nested storage (KubeVirt CSI) and OpenShift Virtualization</li>
+          </ul>
+          <a href="https://github.com/OOsemka/oct-shift-on-shift-virt" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Network Bond -->
