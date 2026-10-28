@@ -49,6 +49,20 @@
       <div class="whatsnew">
         <div class="whatsnew__item">
           <div class="whatsnew__header">
+            <span class="whatsnew__title">ODF Macvlans</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Move OpenShift Data Foundation (Ceph) traffic onto dedicated macvlan public and cluster networks. Pick a node interface, VLAN IDs and CIDRs. The tool configures the nodes with NMState, creates the NADs, runs the Multus validation test and switches the StorageCluster.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
+            <span class="whatsnew__title">One-click NMState</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">Network Bond, Network Bridge and Network VLAN now detect a missing NMState operator and install it with one click, instead of waiting for node interfaces that never arrive.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
             <span class="whatsnew__title">Shift-on-Shift Virt</span>
             <span class="whatsnew__badge whatsnew__badge--new">New</span>
           </div>
@@ -155,7 +169,7 @@
           <div class="card__name">Network Bond</div>
           <div class="card__meta">
             <code class="card__id">oct-network-bond</code>
-            <span class="card__version">v1.0.0</span>
+            <span class="card__version">v0.2.0</span>
             <span class="card__category card__category--network">Network</span>
           </div>
           <ul class="card__features">
@@ -163,6 +177,7 @@
             <li>Select by MachineConfigPool for targeted rollout</li>
             <li>Multiple bond modes (802.3ad, active-backup, etc.)</li>
             <li>NMState NodeNetworkConfigurationPolicy generation</li>
+            <li>One-click NMState operator install</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-network-bond" class="card__link">View on GitHub</a>
         </div>
@@ -172,7 +187,7 @@
           <div class="card__name">Network Bridge</div>
           <div class="card__meta">
             <code class="card__id">oct-network-bridge</code>
-            <span class="card__version">v1.0.0</span>
+            <span class="card__version">v1.1.0</span>
             <span class="card__category card__category--network">Network</span>
           </div>
           <ul class="card__features">
@@ -180,6 +195,7 @@
             <li>VLAN tagging on bridge ports</li>
             <li>OVN bridge-mappings for localnet topology</li>
             <li>Per-MachineConfigPool bridge management</li>
+            <li>One-click NMState operator install</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-network-bridge" class="card__link">View on GitHub</a>
         </div>
@@ -189,7 +205,7 @@
           <div class="card__name">Network VLAN</div>
           <div class="card__meta">
             <code class="card__id">oct-network-vlan</code>
-            <span class="card__version">v1.0.0</span>
+            <span class="card__version">v1.1.0</span>
             <span class="card__category card__category--network">Network</span>
           </div>
           <ul class="card__features">
@@ -197,6 +213,7 @@
             <li>Linux bridge NAD support with VLAN trunk/access config</li>
             <li>OVN ClusterUserDefinedNetworks with localnet topology</li>
             <li>Automatic subnet and gateway configuration</li>
+            <li>One-click NMState operator install</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-network-vlan" class="card__link">View on GitHub</a>
         </div>
@@ -265,6 +282,23 @@
             <li>Results dashboard with IOPS, throughput, and latency</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-storage-bench" class="card__link">View on GitHub</a>
+        </div>
+
+        <!-- ODF Macvlans -->
+        <div class="card">
+          <div class="card__name">ODF Macvlans</div>
+          <div class="card__meta">
+            <code class="card__id">oct-odf-macvlans</code>
+            <span class="card__version">v0.1.0</span>
+            <span class="card__category card__category--storage">Storage</span>
+          </div>
+          <ul class="card__features">
+            <li>Dedicated macvlan public and cluster networks for ODF (Multus)</li>
+            <li>Per-node VLANs and host shim via NMState, one-click NMState install</li>
+            <li>Rook Multus validation test before ODF is switched</li>
+            <li>Rolls Ceph onto the new networks and restarts OSDs that stopped</li>
+          </ul>
+          <a href="https://github.com/OOsemka/oct-odf-macvlans" class="card__link">View on GitHub</a>
         </div>
 
         <!-- Hello World -->
