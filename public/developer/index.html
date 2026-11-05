@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800&family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
 
@@ -76,6 +79,21 @@
       <p>Include a <code>CommunityDisclaimer</code> component on all tool pages:</p>
       <pre><code>"Community project. Not officially supported by Red Hat."</code></pre>
 
+      <h2>Contributing to an Existing Tool</h2>
+      <p>Every OCT repository is open to pull requests: bug fixes, new options and docs are all welcome. Each repo has a <code>CONTRIBUTING.md</code> with the details for that tool; the short version:</p>
+      <ol>
+        <li><strong>Fork the repo</strong> and create a branch. For larger changes, open an issue first so the approach can be agreed on.</li>
+        <li><strong>Run the checks locally</strong> &mdash; the same ones CI runs on your pull request:
+          <pre><code>corepack enable
+yarn install
+yarn verify    # type check, translation keys, repository rules, build</code></pre>
+          <code>yarn check-i18n --fix</code> adds missing translation keys.</li>
+        <li><strong>Test on a lab cluster</strong> with your own image: build and push it to your registry, then apply the repo's <code>deploy/install.yaml</code> with your image. Can't test on a cluster? Say so in the pull request and paste the generated YAML; maintainers test before the release.</li>
+        <li><strong>Open the pull request</strong> and fill in the checklist. CI must pass before it can merge (a maintainer approves the first CI run for first-time contributors).</li>
+        <li><strong>Leave the release to maintainers</strong>: version bumps, container images, git tags and storefront catalog rows.</li>
+      </ol>
+      <p>AI coding assistants are welcome: each repo's <code>AGENTS.md</code> describes the design and rules for them. Please review what they produce.</p>
+
       <h2>Start from the Template</h2>
       <p>Fork <a href="https://github.com/OOsemka/oct-hello-world">oct-hello-world</a> and follow these steps:</p>
       <ol>
@@ -84,7 +102,7 @@
         <li><strong>Build your page components</strong> in <code>src/</code></li>
         <li><strong>Verify the build</strong>:
           <pre><code>yarn install
-yarn build</code></pre>
+yarn verify</code></pre>
         </li>
         <li><strong>Build the container</strong>:
           <pre><code>podman build -t quay.io/&lt;org&gt;/oct-&lt;name&gt;:&lt;semver&gt;-ocp4.22 .</code></pre>
@@ -157,6 +175,9 @@ curl -s https://api.octools.net/v1/versions/oct-your-tool</code></pre>
           <tr><td><code>deploy/install.yaml</code></td><td>Standalone install manifest</td></tr>
           <tr><td><code>AGENTS.md</code></td><td>AI/agent context</td></tr>
           <tr><td><code>README.md</code></td><td>Human docs</td></tr>
+          <tr><td><code>CONTRIBUTING.md</code></td><td>Setup, testing on your own cluster, rules, what maintainers do</td></tr>
+          <tr><td><code>.github/workflows/ci.yml</code></td><td>Pull request checks (<code>yarn verify</code>)</td></tr>
+          <tr><td><code>LICENSE</code></td><td>Apache License 2.0</td></tr>
           <tr><td><code>.cursor/rules/</code></td><td>6 OCT Cursor rules (<code>alwaysApply: true</code>)</td></tr>
         </tbody>
       </table>
