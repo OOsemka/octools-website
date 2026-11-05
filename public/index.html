@@ -52,6 +52,13 @@
       <div class="whatsnew">
         <div class="whatsnew__item">
           <div class="whatsnew__header">
+            <span class="whatsnew__title">Shift-on-Shift Virt</span>
+            <span class="whatsnew__badge whatsnew__badge--update">Update</span>
+          </div>
+          <p class="whatsnew__desc">The bastion VM is now the load balancer, so new nested clusters are reachable from routed networks on Linux bridge and OVN localnet VLANs. IP pools offer free external addresses, and the wizard refuses network settings that cannot work.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
             <span class="whatsnew__title">Network Bond</span>
             <span class="whatsnew__badge whatsnew__badge--update">Update</span>
           </div>
@@ -119,7 +126,7 @@
           <div class="card__name">Shift-on-Shift Virt</div>
           <div class="card__meta">
             <code class="card__id">oct-shift-on-shift-virt</code>
-            <span class="card__version">v0.2.2</span>
+            <span class="card__version">v0.3.0</span>
             <span class="card__category card__category--compute">Compute</span>
           </div>
           <ul class="card__features">
@@ -127,6 +134,8 @@
             <li>Agent-based install on a per-cluster user-defined network, fully automated</li>
             <li>One bastion VM: nested DNS, MCS relay, optional desktop with the nested console</li>
             <li>Live-migratable masters (l2bridge binding, RWX Block disks)</li>
+            <li>Bastion load balancer: reachable from routed networks, Linux bridge or OVN localnet VLANs</li>
+            <li>IP pools and network guardrails: pick free external addresses from a list</li>
             <li>Optional nested storage (KubeVirt CSI) and OpenShift Virtualization</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-shift-on-shift-virt" class="card__link">View on GitHub</a>
