@@ -105,7 +105,7 @@ GET /v1/versions/oct-baremetal</code></pre>
       <div class="endpoint">
         <span class="endpoint__method endpoint__method--post">POST</span>
         <span class="endpoint__path">/v1/stats/download</span>
-        <p class="endpoint__desc">Increment the download counter for a tool. Called by the storefront on Add.</p>
+        <p class="endpoint__desc">Increment the download counter for a tool. Called by the storefront on Add (not on Update). Accepted only for known tools: <code>toolId</code> must be a Kubernetes-style name with published version rows, otherwise the answer is <code>404</code>.</p>
         <div class="endpoint__body">
           <pre><code># Request body
 {
@@ -118,7 +118,7 @@ GET /v1/versions/oct-baremetal</code></pre>
       <div class="endpoint">
         <span class="endpoint__method endpoint__method--post">POST</span>
         <span class="endpoint__path">/v1/stats/rating</span>
-        <p class="endpoint__desc">Upsert a star rating. One rating per cluster per tool (deduped by cluster hash).</p>
+        <p class="endpoint__desc">Upsert a star rating. One rating per cluster per tool (deduped by cluster hash). <code>clusterHash</code> must be a 64-character hex SHA-256; unknown tools get <code>404</code>.</p>
         <div class="endpoint__body">
           <pre><code># Request body
 {
@@ -161,6 +161,11 @@ GET /v1/versions/oct-baremetal</code></pre>
 
 # Optional fields (tile metadata for /v1/catalog):
 #   deployUrl, category, description, displayName, href, icon, git
+# Optional security fields (storefront 1.6+ shows them; older ones ignore them):
+#   minStorefront    oldest storefront that can install this row, e.g. "1.6.0"
+#   security         the tool's spec.security (object sets, null clears)
+#   versionSecurity  this row's versions[].security
+# Declarations are limited to 16 KB.
 
 # Header
 Authorization: Bearer &lt;admin-token&gt;</code></pre>
@@ -171,10 +176,10 @@ Authorization: Bearer &lt;admin-token&gt;</code></pre>
       <p>All endpoints return permissive CORS headers. The API is designed to be called from OpenShift Console plugins running in the browser.</p>
 
       <h2>Rate Limiting</h2>
-      <p>Write endpoints (<code>POST</code>, <code>DELETE</code>) are rate-limited to <strong>20 requests per minute per IP</strong>. Read endpoints are not rate-limited.</p>
+      <p>Write endpoints (<code>POST</code>, <code>DELETE</code>) are rate-limited to <strong>20 requests per minute per IP</strong>. Read endpoints are not rate-limited. Failed admin authentication is limited to 10 attempts per minute per IP.</p>
 
       <h2>Privacy</h2>
-      <p>The API collects <strong>no personally identifiable information</strong>. Ratings use an anonymous SHA-256 hash of the cluster ID for deduplication. No cookies, no tracking, no analytics.</p>
+      <p>The API collects <strong>no personally identifiable information</strong>. Ratings use an anonymous SHA-256 hash of the cluster ID for deduplication. No cookies, no tracking, no analytics. From storefront 1.6, cluster admins can limit what a cluster sends (<code>telemetry: full | ratings-only | off</code> in the cluster policy).</p>
 
     </div>
   </section>
