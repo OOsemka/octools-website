@@ -52,6 +52,13 @@
       <div class="whatsnew">
         <div class="whatsnew__item">
           <div class="whatsnew__header">
+            <span class="whatsnew__title">Shift-on-Shift Express</span>
+            <span class="whatsnew__badge whatsnew__badge--new">New</span>
+          </div>
+          <p class="whatsnew__desc">Shift-on-Shift Virt 0.5 can clone a nested cluster from a master instead of installing it: console up in about 8 minutes and oc login in about 15, versus about an hour for an install. Each clone gets its own name, addresses, host routes and credentials, and can add nested storage and OpenShift Virtualization. 0.5.1 also publishes nested applications under the hosting cluster's *.apps with its trusted certificate, no DNS needed.</p>
+        </div>
+        <div class="whatsnew__item">
+          <div class="whatsnew__header">
             <span class="whatsnew__title">Shift-on-Shift Virt 0.4</span>
             <span class="whatsnew__badge whatsnew__badge--update">Update</span>
           </div>
@@ -133,7 +140,7 @@
           <div class="card__name">Shift-on-Shift Virt</div>
           <div class="card__meta">
             <code class="card__id">oct-shift-on-shift-virt</code>
-            <span class="card__version">v0.4.4</span>
+            <span class="card__version">v0.5.1</span>
             <span class="card__category card__category--compute">Compute</span>
           </div>
           <ul class="card__features">
@@ -148,6 +155,8 @@
             <li>Host routes: console, login and API without DNS, per-cluster CA</li>
             <li>Network plugin choice: OVN-Kubernetes, Calico or Cilium (digest-pinned)</li>
             <li>OpenShift 4.22 and 5.0, always the newest release of the chosen version</li>
+            <li>Express: clone a cluster from a master in minutes instead of a full install</li>
+            <li>Publish nested applications under the hosting cluster's *.apps, automatically or per route</li>
           </ul>
           <a href="https://github.com/OOsemka/oct-shift-on-shift-virt" class="card__link">View on GitHub</a>
         </div>
