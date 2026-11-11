@@ -176,7 +176,7 @@ Authorization: Bearer &lt;admin-token&gt;</code></pre>
       <p>All endpoints return permissive CORS headers. The API is designed to be called from OpenShift Console plugins running in the browser.</p>
 
       <h2>Rate Limiting</h2>
-      <p>Write endpoints (<code>POST</code>, <code>DELETE</code>) are rate-limited to <strong>20 requests per minute per IP</strong>. Read endpoints are not rate-limited. Failed admin authentication is limited to 10 attempts per minute per IP.</p>
+      <p>Write endpoints (<code>POST</code>, <code>DELETE</code>) are rate-limited to <strong>20 requests per minute per IP</strong>. Read endpoints are not rate-limited. Failed admin authentication is throttled to 10 attempts per minute per IP within each Worker instance (not a global limit).</p>
 
       <h2>Privacy</h2>
       <p>The API collects <strong>no personally identifiable information</strong>. Ratings use an anonymous SHA-256 hash of the cluster ID for deduplication. No cookies, no tracking, no analytics. From storefront 1.6, cluster admins can limit what a cluster sends (<code>telemetry: full | ratings-only | off</code> in the cluster policy).</p>
