@@ -31,7 +31,7 @@
         <li><a href="/guide/">Getting Started</a></li>
         <li><a href="/developer/" class="active">Developer Guide</a></li>
         <li><a href="/api/">API Reference</a></li>
-        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="https://github.com/openshift-community-tools">GitHub</a></li>
       </ul>
     </div>
   </nav>
@@ -95,7 +95,7 @@ yarn verify    # type check, translation keys, repository rules, build</code></p
       <p>AI coding assistants are welcome: each repo's <code>AGENTS.md</code> describes the design and rules for them. Please review what they produce.</p>
 
       <h2>Start from the Template</h2>
-      <p>Fork <a href="https://github.com/OOsemka/oct-hello-world">oct-hello-world</a> and follow these steps:</p>
+      <p>Fork <a href="https://github.com/openshift-community-tools/oct-hello-world">oct-hello-world</a> and follow these steps:</p>
       <ol>
         <li><strong>Rename the plugin ID</strong> in <code>package.json</code> → <code>consolePlugin.name</code></li>
         <li><strong>Update routes</strong> in <code>console-extensions.json</code></li>
@@ -113,7 +113,7 @@ yarn verify</code></pre>
       </ol>
 
       <h2>Catalog PR</h2>
-      <p>To list your tool in the storefront catalog, submit a PR to <a href="https://github.com/OOsemka/oct-storefront">oct-storefront</a> adding your tool to <code>catalog/community.yaml</code>:</p>
+      <p>To list your tool in the storefront catalog, submit a PR to <a href="https://github.com/openshift-community-tools/oct-storefront">oct-storefront</a> adding your tool to <code>catalog/community.yaml</code>:</p>
       <pre><code>- metadata:
     name: oct-your-tool
   spec:
@@ -143,7 +143,7 @@ yarn verify</code></pre>
         <li>Build and push the image for <strong>both</strong> OpenShift minors: <code>&lt;semver&gt;-ocp4.22</code> and <code>&lt;semver&gt;-ocp4.21</code> (same digest if the bits match). Do the same for any companion images. Never overwrite a published tag &mdash; pick the next version instead.</li>
         <li>In <code>oct-storefront</code>: add the new <code>versions[]</code> rows (keep older ones), update <code>catalog/deploy/oct-your-tool.yaml</code>, check it is registered in <code>BUNDLED_DEPLOY</code>, bump the storefront version and publish its image (deploy bundles are compiled into it).</li>
         <li>Run <code>scripts/validate-catalog.sh</code> in the storefront repo &mdash; it checks that every tag is public, both minors are present and bundles match the catalog.</li>
-        <li>After the storefront PR merges, publish the rows to the public API from <a href="https://github.com/OOsemka/octools-stats-worker"><code>octools-stats-worker</code></a> (maintainers hold the admin token):
+        <li>After the storefront PR merges, publish the rows to the public API from <a href="https://github.com/openshift-community-tools/octools-stats-worker"><code>octools-stats-worker</code></a> (maintainers hold the admin token):
           <pre><code>DRY_RUN=1 TOOL=oct-your-tool CATALOG_PATH=../oct-storefront/catalog/community.yaml node seed.js
 ADMIN_TOKEN=&lt;token&gt; TOOL=oct-your-tool CATALOG_PATH=../oct-storefront/catalog/community.yaml node seed.js
 curl -s https://api.octools.net/v1/versions/oct-your-tool</code></pre>
@@ -158,7 +158,7 @@ curl -s https://api.octools.net/v1/versions/oct-your-tool</code></pre>
         <li>Paste a <code>CommunityTool</code> YAML manifest</li>
         <li>The extension gets an <strong>orange badge</strong>, and stats stay cluster-local</li>
       </ol>
-      <p>See <a href="https://github.com/OOsemka/oct-hello-external">oct-hello-external</a> for a working example.</p>
+      <p>See <a href="https://github.com/openshift-community-tools/oct-hello-external">oct-hello-external</a> for a working example.</p>
 
       <h2>Required Files Checklist</h2>
       <table>
@@ -189,7 +189,7 @@ curl -s https://api.octools.net/v1/versions/oct-your-tool</code></pre>
   <footer class="site-footer">
     <div class="container">
       <ul class="footer-links">
-        <li><a href="https://github.com/OOsemka">GitHub</a></li>
+        <li><a href="https://github.com/openshift-community-tools">GitHub</a></li>
         <li><a href="/api/">API Docs</a></li>
         <li><a href="/developer/">Developer Guide</a></li>
         <li><a href="/guide/">Getting Started</a></li>
